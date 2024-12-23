@@ -1,7 +1,7 @@
 import { BaseQueries } from "./base.queries";
 import { PrismaClient, type DeliveryOption } from "@prisma/client";
 
-class DeliveryOptionQueries extends BaseQueries<DeliveryOption> {
+export class DeliveryOptionQueries extends BaseQueries<DeliveryOption> {
   constructor() {
     super();
   }
@@ -14,5 +14,3 @@ class DeliveryOptionQueries extends BaseQueries<DeliveryOption> {
     return "id";
   }
 }
-
-export default DeliveryOptionQueries;
