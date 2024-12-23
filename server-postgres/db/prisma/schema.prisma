@@ -24,30 +24,25 @@ enum OrderState {
   DELIVERED
 }
 
-// TODO: Initial setup - At least 1 insert needed - could be the default
-// Modify (after analysing feasibility and requirement) the chain later to User (SELLER type) -> owns a Brand -> owns a product
 model Brand {
   id         String    @id @default(uuid())
   name       String
   email      String
   website    String
   company    String
-  products   Product[] // One brand can own multiple products
+  products   Product[]
   createdAt  DateTime  @default(now())
   modifiedAt DateTime  @updatedAt
 }
 
-// TODO: Initial setup - At least 1 insert needed - could be name: "General"
-// TODO: Indexing on tagNames ?
 model Category {
   name       String    @id
-  tagNames   String[] // If possible, can be useful for searching, indexing - not sure about modelling, so left it as string for now
-  products   Product[] // One category can be mapped to multiple products
+  tagNames   String[]
+  products   Product[]
   createdAt  DateTime  @default(now())
   modifiedAt DateTime  @updatedAt
 }
 
-// TODO: Initial setup - Add the Admin user
 model User {
   email         String    @id
   nickname      String    @unique @db.VarChar(8) // Must be 6 to 8 characters alphanumeric
@@ -57,21 +52,20 @@ model User {
   lastName      String
   address       String
   role          UserRole  @default(CUSTOMER)
-  cart          Cart? // One user can have maximum of one cart at a time
-  orders        Order[] // One user can have multiple orders (past / present)
-  productsOwned Product[] // Entry only when the role is SELLER
-  active        Boolean   @default(true)
+  cart          Cart?
+  orders        Order[]
+  productsOwned Product[]
+  isActive      Boolean   @default(true)
   createdAt     DateTime  @default(now())
   modifiedAt    DateTime  @updatedAt
 }
 
-// TODO: Initial setup - Add a few products initially to set up the integration testing for later
 model Product {
   id            String            @id @default(uuid())
   name          String
   description   String
-  imgName       String // name of the file - locally stored for now
-  imgType       String // extension of the file
+  imgName       String
+  imgType       String
   pricePaisa    BigInt // Must be >= 0
   stock         Int // Must be >= 0
   brand         Brand             @relation(fields: [brandId], references: [id])
@@ -80,9 +74,9 @@ model Product {
   categoryName  String
   owner         User              @relation(fields: [ownerEmail], references: [email])
   ownerEmail    String
-  ratingOnFifty Int? // Optional - especially when product is created
-  ratingCount   Int? // Optional
-  active        Boolean           @default(true)
+  ratingOnFifty Int?
+  ratingCount   Int?
+  isActive      Boolean           @default(true)
   transactions  TransactionItem[]
   createdAt     DateTime          @default(now())
   modifiedAt    DateTime          @updatedAt
@@ -90,13 +84,11 @@ model Product {
   @@unique([name, brandId]) // One brand cannot have two products of the same name
 }
 
-// TODO: Initial setup - At least 3 insert needed - 7 days(free), 3 days(4999p), 1 day(9999p)
-// If possible to structure this better with enums to map days with cost - modify later
 model DeliveryOption {
   id           BigInt            @id @default(autoincrement())
   deliveryDays Int               @unique
   costPaisa    Int
-  transactions TransactionItem[] // Each transaction must have a delivery option
+  transactions TransactionItem[]
   createdAt    DateTime          @default(now())
   modifiedAt   DateTime          @updatedAt
 
@@ -110,7 +102,7 @@ model TransactionItem {
   deliveryOption   DeliveryOption   @relation(fields: [deliveryOptionId], references: [id])
   deliveryOptionId BigInt
   quantity         Int // Must be > 0
-  state            TransactionState @default(IN_CART) // A new transaction item is more often first added to cart, before being ordered
+  state            TransactionState @default(IN_CART)
   cart             Cart?            @relation(fields: [cartId], references: [id])
   cartId           String? // Initially a transaction item will be added to cart 
   order            Order?           @relation(fields: [orderId], references: [id])
