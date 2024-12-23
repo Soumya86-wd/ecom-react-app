@@ -1,0 +1,99 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("/src/assets/fonts/Roboto-Regular.ttf") format("truetype");
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply bg-colorPrimary-button-primary-bg border-standard border-colorPrimary-button-primary-border text-colorPrimary-button-primary-content shadow cursor-pointer transition ease-in-out hover:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-colorPrimary-button-secondary-bg border-standard border-colorPrimary-button-secondary-border
+    text-colorPrimary-button-secondary-content shadow cursor-pointer transition ease-in-out hover:scale-95;
+  }
+
+  .btn-registration {
+    @apply bg-colorPrimary-button-primary-bg  text-colorPrimary-button-primary-content shadow disabled:bg-gray-300
+    enabled:transition enabled:ease-in-out enabled:hover:scale-95;
+  }
+
+  .btn-icon {
+    @apply bg-colorPrimary-button-primary-bg text-colorPrimary-button-primary-content cursor-pointer transition ease-in-out hover:scale-x-105;
+  }
+
+  /* Select Dropdowns */
+  .select-primary {
+    @apply cursor-pointer text-colorPrimary-select-text bg-colorPrimary-select-bg border-standard border-colorPrimary-select-border rounded-lg shadow-sm  py-xsGutter px-xsGutter;
+  }
+
+  /* Links */
+  .link-hover {
+    @apply hover:underline hover:!text-colorPrimary-body-text-red cursor-pointer;
+  }
+
+  /* Typography */
+  .text-body-heading {
+    @apply font-bold smartPhone:text-lg laptop:text-2xl;
+  }
+
+  .text-body-subheading {
+    @apply font-semibold text-sm smartPhone:text-base laptop:text-lg;
+  }
+
+  .text-info-emphasize {
+    @apply font-bold text-sm smartPhone:text-base tablet:text-lg;
+  }
+
+  .text-info-other {
+    @apply text-xs smartPhone:text-sm tablet:text-base;
+  }
+
+  /* Images */
+  .image-container-small {
+    @apply max-w-24 max-h-24 tablet:max-w-32 tablet:max-h-32;
+  }
+
+  .image-container-normal {
+    @apply h-52 w-52;
+  }
+
+  .image-container-large {
+    @apply h-64 w-64;
+  }
+
+  /* Main Containers */
+  .body-container {
+    @apply w-full absolute top-noSpace left-noSpace flex flex-col min-h-screen bg-colorPrimary-body-bg text-colorPrimary-body-text-blue;
+  }
+
+  .site-anchor-common {
+    @apply w-full bg-colorPrimary-siteAnchors-bg;
+  }
+
+  .navbar {
+    @apply site-anchor-common text-colorPrimary-siteAnchors-headerText fixed top-noSpace left-noSpace shadow-md z-10 border-b-thick border-b-colorPrimary-border-normal rounded-b-lg h-20;
+  }
+
+  .footer {
+    @apply site-anchor-common text-colorPrimary-siteAnchors-footerText shadow mt-largeGutter;
+  }
+
+  .content {
+    @apply relative w-full pt-20 flex-grow;
+  }
+
+  /* Subsidiary Containers */
+  .content-with-padding {
+    @apply w-full p-largeGutter laptop:p-16 laptop:pt-10 pb-noSpace laptop:pb-noSpace;
+  }
+
+  .content-with-extra-padding {
+    @apply w-full p-largeGutter laptop:p-32 laptop:pt-10 pb-noSpace laptop:pb-noSpace;
+  }
+}

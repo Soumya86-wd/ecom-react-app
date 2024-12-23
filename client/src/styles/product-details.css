@@ -1,0 +1,77 @@
+@layer components {
+  .product-details-body {
+    @apply content-with-extra-padding grid grid-cols-productDetailsBodyStacked laptop:grid-cols-productDetailsBody gap-xlGutter;
+  }
+
+  .product-details-image-container {
+    @apply image-container-large justify-self-start self-start;
+  }
+
+  .product-details-image {
+    @apply object-contain;
+  }
+
+  .product-details-info-block {
+    @apply flex flex-col h-full gap-largeGutter laptop:justify-between;
+  }
+
+  .product-details-title {
+    @apply text-info-emphasize;
+  }
+
+  .product-details-price-brand-rating {
+    @apply flex flex-col gap-y-smallGutter;
+  }
+
+  .product-details-price {
+    @apply text-info-emphasize;
+  }
+
+  .product-details-brand-info {
+    @apply link-hover text-info-other;
+  }
+
+  .product-details-rating-container {
+    @apply flex items-center h-8 gap-smallGutter;
+  }
+
+  .product-details-rating-stars-link {
+    @apply w-16 cursor-pointer;
+  }
+
+  .product-details-rating-stars-image {
+    @apply object-contain pb-xsGutter;
+  }
+
+  .product-details-rating-count {
+    @apply text-info-other link-hover h-full inline-flex items-center;
+  }
+
+  .product-details-qty-container {
+    @apply self-start;
+  }
+
+  .product-details-qty {
+    @apply select-primary font-medium block;
+  }
+
+  .product-details-add-to-cart-btn-container {
+    @apply self-start;
+  }
+
+  .product-details-add-to-cart-btn {
+    @apply btn-primary rounded-3xl h-10 px-4 text-info-other;
+  }
+
+  .product-details-description {
+    @apply laptop:col-span-2 flex flex-col gap-smallGutter;
+  }
+
+  .product-details-description-title {
+    @apply text-info-emphasize;
+  }
+
+  .product-details-description-body {
+    @apply text-info-other;
+  }
+}

@@ -1,0 +1,17 @@
+@layer components {
+  .footer-box {
+    @apply w-full mx-auto p-largeGutter laptop:flex laptop:items-center laptop:justify-between;
+  }
+
+  .footer-copyright-text {
+    @apply text-sm tablet:text-center;
+  }
+
+  .footer-list-container {
+    @apply flex flex-wrap items-center mt-3 text-sm font-medium tablet:mt-0;
+  }
+
+  .footer-link {
+    @apply hover:underline me-4 laptop:me-6;
+  }
+}

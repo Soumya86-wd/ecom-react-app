@@ -1,0 +1,69 @@
+@layer components {
+  .products-grid {
+    @apply w-full grid grid-cols-1 tablet:grid-cols-3 laptop:grid-cols-4 desktop:grid-cols-6 largeScreen:grid-cols-7;
+  }
+
+  .product-card {
+    @apply flex flex-col gap-largeGutter py-largeGutter px-smallGutter border-r-standard border-b-standard border-colorPrimary-border-normal;
+  }
+
+  .product-clickable-area {
+    @apply cursor-pointer hover:border-standard hover:border-colorPrimary-border-dark hover:rounded-sm flex flex-col-reverse tablet:flex-col gap-smallGutter;
+  }
+
+  .product-image-container {
+    @apply image-container-normal self-start tablet:self-center;
+  }
+
+  .product-image {
+    @apply object-contain;
+  }
+
+  .product-title {
+    @apply line-clamp-2 font-bold;
+  }
+
+  .product-rating-container {
+    @apply flex items-center h-10 gap-smallGutter;
+  }
+
+  .product-rating-stars-link {
+    @apply w-24 cursor-pointer;
+  }
+
+  .product-rating-stars-image {
+    @apply object-contain pb-xsGutter;
+  }
+
+  .product-rating-count {
+    @apply text-colorPrimary-body-link link-hover h-full inline-flex items-center;
+  }
+
+  .product-purchase-area {
+    @apply flex flex-col gap-smallGutter;
+  }
+
+  .product-price-quantity-container {
+    @apply flex flex-row justify-between items-center pr-8 tablet:pr-noSpace;
+  }
+
+  .product-price-container {
+    @apply font-bold shrink-0;
+  }
+
+  .product-qty {
+    @apply select-primary font-medium;
+  }
+
+  .product-added-msg {
+    @apply flex text-colorPrimary-body-text-green font-semibold justify-center;
+  }
+
+  .product-added-msg-svg {
+    @apply size-6;
+  }
+
+  .product-add-to-cart-btn {
+    @apply btn-primary w-full rounded-3xl h-10;
+  }
+}

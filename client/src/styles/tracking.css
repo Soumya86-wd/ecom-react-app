@@ -1,0 +1,45 @@
+@layer components {
+  .tracking-body {
+    @apply content-with-padding flex flex-col gap-largeGutter items-start;
+  }
+
+  .tracking-orders-link {
+    @apply link-hover text-info-other;
+  }
+
+  .tracking-delivery-date {
+    @apply text-info-emphasize;
+  }
+
+  .tracking-item-order-id {
+    @apply text-info-other text-colorPrimary-body-text-gray;
+  }
+
+  .tracking-item-name {
+    @apply text-info-emphasize;
+  }
+
+  .tracking-item-image-container {
+    @apply image-container-normal flex;
+  }
+
+  .tracking-item-image {
+    @apply object-contain self-center;
+  }
+
+  .tracking-progress-bar-container {
+    @apply w-full bg-colorPrimary-button-secondary-bg rounded-full h-smallGutter relative;
+  }
+
+  .tracking-progress-slider {
+    @apply bg-colorPrimary-body-text-green rounded-full h-smallGutter;
+  }
+
+  .tracking-progress-stages {
+    @apply mt-smallGutter w-full flex justify-between absolute left-noSpace top-full text-info-other;
+  }
+
+  .tracking-progress-current-stage {
+    @apply text-colorPrimary-body-text-green text-info-emphasize;
+  }
+}

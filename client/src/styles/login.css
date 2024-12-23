@@ -1,0 +1,57 @@
+@layer components {
+  .login-bg-blur {
+    @apply fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40;
+  }
+
+  .login-body {
+    @apply content-with-extra-padding flex items-center justify-center bg-colorPrimary-body-bg;
+  }
+
+  .login-popup-container {
+    @apply bg-white w-full max-w-md shadow-lg rounded-lg p-largeGutter relative z-50;
+  }
+
+  .login-page-title {
+    @apply w-full text-center text-info-emphasize;
+  }
+
+  .login-page-subheading {
+    @apply w-full text-center text-info-other pb-largeGutter;
+  }
+
+  .login-button-toggle-container {
+    @apply flex justify-center space-x-largeGutter mb-largeGutter;
+  }
+
+  .login-toggle-button {
+    @apply btn-registration w-full py-xsGutter text-info-other rounded;
+  }
+
+  .login-form {
+    @apply space-y-largeGutter;
+  }
+
+  .login-form-label {
+    @apply block text-sm font-bold text-colorPrimary-body-text-blue mb-smallGutter;
+  }
+
+  .login-form-input {
+    @apply select-primary w-full;
+  }
+
+  .confirm-password-hidden {
+    @apply hidden;
+  }
+
+  .login-form-submit-button {
+    @apply btn-primary w-full py-xsGutter text-info-emphasize rounded focus:outline-none;
+  }
+
+  .login-forgot-password-container {
+    @apply mt-largeGutter text-center;
+  }
+
+  .login-forgot-password-link {
+    @apply link-hover text-sm;
+  }
+}

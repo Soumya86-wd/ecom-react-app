@@ -1,0 +1,145 @@
+@layer components {
+  .checkout-body-container {
+    @apply content-with-padding;
+  }
+
+  .checkout-body {
+    @apply grid grid-cols-checkoutBody gap-largeGutter;
+  }
+
+  .checkout-review-left {
+    @apply text-body-heading self-center;
+  }
+
+  .checkout-review-right {
+    @apply text-body-subheading justify-self-end self-center;
+  }
+
+  .checkout-review-itemcount {
+    @apply text-colorPrimary-body-link block tablet:inline;
+  }
+
+  .checkout-summary-containers-common {
+    @apply w-full col-span-2 laptop:col-span-1 laptop:row-start-2;
+  }
+
+  .checkout-box-borders-common {
+    @apply overflow-hidden border-standard border-colorPrimary-border-normal rounded-lg;
+  }
+
+  .checkout-payment-summary-container {
+    @apply checkout-summary-containers-common laptop:col-start-2 laptop:col-end-3 w-full h-auto;
+  }
+
+  .checkout-payment-summary-box {
+    @apply w-full p-smallGutter flex flex-col gap-largeGutter checkout-box-borders-common;
+  }
+
+  .checkout-payment-summary-title {
+    @apply text-info-emphasize;
+  }
+
+  .checkout-calculations {
+    @apply w-full grid grid-cols-checkoutPaymentCard gap-y-smallGutter;
+  }
+
+  .checkout-payment-grid-left {
+    @apply justify-self-start text-info-other text-colorPrimary-body-text-gray;
+  }
+
+  .checkout-payment-grid-right {
+    @apply justify-self-end text-info-other text-colorPrimary-body-text-gray;
+  }
+
+  .checkout-payment-total-left {
+    @apply justify-self-start font-bold text-info-emphasize text-colorPrimary-body-text-red;
+  }
+
+  .checkout-payment-total-right {
+    @apply justify-self-end font-bold text-info-emphasize text-colorPrimary-body-text-red;
+  }
+
+  .checkout-button {
+    @apply btn-primary rounded-md text-center py-xsGutter text-info-emphasize;
+  }
+
+  .checkout-items-summary-container {
+    @apply checkout-summary-containers-common laptop:col-start-1 laptop:col-end-2 w-full h-auto flex flex-col gap-largeGutter;
+  }
+
+  .checkout-item-summary-box {
+    @apply w-full checkout-box-borders-common p-largeGutter;
+  }
+
+  .checkout-item-summary-grid {
+    @apply w-full grid grid-cols-checkoutItemCard gap-largeGutter;
+  }
+
+  .checkout-item-selected-delivery {
+    @apply justify-self-start col-span-3 text-colorPrimary-body-text-green text-info-emphasize;
+  }
+
+  .checkout-item-image-container {
+    @apply image-container-small self-start;
+  }
+
+  .checkout-item-image {
+    @apply object-contain;
+  }
+
+  .checkout-item-details {
+    @apply justify-self-start self-start flex flex-col gap-smallGutter text-info-emphasize;
+  }
+
+  .checkout-item-title {
+    @apply line-clamp-2 link-hover;
+  }
+
+  .checkout-item-price {
+    @apply text-colorPrimary-body-text-red font-bold;
+  }
+
+  .checkout-item-quantity-container {
+    @apply flex gap-smallGutter items-center;
+  }
+
+  .checkout-item-quantity-edit {
+    @apply link-hover;
+  }
+
+  .checkout-item-quantity-edit-icon {
+    @apply size-6 inline;
+  }
+
+  .checkout-item-quantity-select {
+    @apply select-primary text-info-other;
+  }
+
+  .checkout-item-quantity-button {
+    @apply btn-secondary rounded-3xl px-smallGutter text-info-other;
+  }
+
+  .checkout-delivery-options {
+    @apply justify-self-start self-start flex flex-col gap-smallGutter;
+  }
+
+  .checkout-delivery-options-title {
+    @apply justify-self-start text-info-emphasize text-colorPrimary-body-text-green;
+  }
+
+  .checkout-delivery-options-grid {
+    @apply grid grid-cols-deliveryOptions gap-smallGutter;
+  }
+
+  .checkout-delivery-grid-radio {
+    @apply self-start;
+  }
+
+  .checkout-delivery-day-info {
+    @apply block text-info-emphasize text-colorPrimary-body-text-green;
+  }
+
+  .checkout-delivery-price-info {
+    @apply block text-info-other text-colorPrimary-body-text-gray;
+  }
+}
