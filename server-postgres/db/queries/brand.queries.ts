@@ -15,7 +15,7 @@ export class BrandQueries extends BaseQueries<Brand> {
     return "id";
   }
 
-  async findById(id: string | number): Promise<Brand | null> {
+  async findById(id: string): Promise<Brand | null> {
     try {
       return await this.getModelClient().findUnique({
         where: { id },
