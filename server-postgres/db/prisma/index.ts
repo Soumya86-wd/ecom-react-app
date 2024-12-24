@@ -1,1 +1,1 @@
-// exports from the prisma folder
+export { UserRole, TransactionState, OrderState } from "@prisma/client";

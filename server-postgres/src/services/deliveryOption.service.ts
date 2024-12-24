@@ -1,4 +1,4 @@
-import DeliveryOptionQueries from "../../db/queries/deliveryOption.queries";
+import { DeliveryOptionQueries } from "../../db";
 
 (async () => {
   const deliveryOptionQueries = new DeliveryOptionQueries();
