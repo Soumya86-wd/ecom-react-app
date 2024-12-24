@@ -63,9 +63,7 @@ export class BrandService {
     try {
       BrandSchema.parse(inputData);
 
-      inputData.products = inputData.products
-        ? inputData.products.map((product) => ProductSchema.parse(product))
-        : [];
+      inputData.products = this.parseProducts(inputData.products);
 
       const serializedData = JSON.parse(JSON.stringify(inputData));
       const updatedData: BrandData | null = await this.brandQueries.updateData(
