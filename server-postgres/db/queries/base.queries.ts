@@ -53,7 +53,7 @@ export abstract class BaseQueries<TModel> {
   async updateData(
     id: string | number,
     newData: Prisma.InputJsonObject
-  ): Promise<TModel> {
+  ): Promise<TModel | null> {
     try {
       return await this.getModelClient().update({
         where: { [this.getIdName()]: id },
@@ -68,7 +68,7 @@ export abstract class BaseQueries<TModel> {
     }
   }
 
-  async deleteData(id: string | number): Promise<TModel> {
+  async deleteData(id: string | number): Promise<TModel | null> {
     try {
       return await this.getModelClient().delete({
         where: { [this.getIdName()]: id },
