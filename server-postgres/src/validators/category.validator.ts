@@ -3,10 +3,10 @@ import { ProductSchema } from "./product.validator";
 
 export const CategorySchema = z.object({
   name: z.string(),
-  tagNames: z.array(z.string()).default([]),
-  products: z.array(ProductSchema).default([]),
-  createdAt: z.never(),
-  modifiedAt: z.never(),
+  tagNames: z.array(z.string()).optional(),
+  products: z.array(ProductSchema).optional(),
+  createdAt: z.date().optional(),
+  modifiedAt: z.date().optional(),
 });
 
 export type CategoryData = z.infer<typeof CategorySchema>;

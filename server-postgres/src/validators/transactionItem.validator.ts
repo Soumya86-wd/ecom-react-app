@@ -2,15 +2,18 @@ import { z } from "zod";
 import { TransactionState } from "../../db";
 
 export const TransactionItemSchema = z.object({
-  id: z.never(),
+  id: z.bigint().optional(),
   productId: z.string(),
   deliveryOptionId: z.bigint(),
   quantity: z.number().int().positive().default(1),
-  state: z.nativeEnum(TransactionState).default(TransactionState.IN_CART),
+  state: z
+    .nativeEnum(TransactionState)
+    .optional()
+    .default(TransactionState.IN_CART),
   cartId: z.string().optional(),
   orderId: z.string().optional(),
-  createdAt: z.never(),
-  modifiedAt: z.never(),
+  createdAt: z.date().optional(),
+  modifiedAt: z.date().optional(),
 });
 
 export type TransactionItemData = z.infer<typeof TransactionItemSchema>;

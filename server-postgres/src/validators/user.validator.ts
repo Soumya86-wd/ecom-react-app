@@ -12,13 +12,13 @@ export const UserSchema = z.object({
   middleName: z.string().optional(),
   lastName: z.string(),
   address: z.string(),
-  role: z.nativeEnum(UserRole).default(UserRole.CUSTOMER),
+  role: z.nativeEnum(UserRole).optional().default(UserRole.CUSTOMER),
   cart: CartSchema.omit({ customerEmail: true }).optional(),
-  orders: z.array(OrderSchema).default([]),
-  productsOwned: z.array(ProductSchema).default([]),
-  isActive: z.boolean().default(true),
-  createdAt: z.never(),
-  modifiedAt: z.never(),
+  orders: z.array(OrderSchema).optional(),
+  productsOwned: z.array(ProductSchema).optional(),
+  isActive: z.boolean().optional().default(true),
+  createdAt: z.date().optional(),
+  modifiedAt: z.date().optional(),
 });
 
 export type UserData = z.infer<typeof UserSchema>;

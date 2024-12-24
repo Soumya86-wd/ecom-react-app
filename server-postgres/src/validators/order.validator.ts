@@ -3,14 +3,14 @@ import { OrderState } from "../../db";
 import { TransactionItemSchema } from "./transactionItem.validator";
 
 export const OrderSchema = z.object({
-  id: z.never(),
+  id: z.string().optional(),
   customerEmail: z.string().email(),
   items: z.array(TransactionItemSchema),
-  paymentId: z.never(),
-  status: z.nativeEnum(OrderState).default(OrderState.ORDERED),
-  orderDate: z.never(),
+  paymentId: z.string().optional(),
+  status: z.nativeEnum(OrderState).optional().default(OrderState.ORDERED),
+  orderDate: z.date().optional(),
   deliveryDate: z.date(),
-  modifiedAt: z.never(),
+  modifiedAt: z.date().optional(),
 });
 
 export type OrderData = z.infer<typeof OrderSchema>;

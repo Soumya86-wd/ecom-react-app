@@ -13,7 +13,7 @@ export const ProductSchema = z.object({
   ownerEmail: z.string(),
   ratingOnFifty: z.number().int().lte(50).nonnegative().optional(),
   ratingCount: z.number().int().positive().optional(),
-  isActive: z.boolean().default(true),
+  isActive: z.boolean().optional().default(true),
   createdAt: z.date().optional(),
   modifiedAt: z.date().optional(),
 });
