@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const ProductSchema = z.object({
-  id: z.never(),
+  id: z.string().optional(),
   name: z.string(),
   description: z.string(),
   imgName: z.string(),
@@ -14,8 +14,8 @@ export const ProductSchema = z.object({
   ratingOnFifty: z.number().int().lte(50).nonnegative().optional(),
   ratingCount: z.number().int().positive().optional(),
   isActive: z.boolean().default(true),
-  createdAt: z.never(),
-  modifiedAt: z.never(),
+  createdAt: z.date().optional(),
+  modifiedAt: z.date().optional(),
 });
 
 export type ProductData = z.infer<typeof ProductSchema>;
