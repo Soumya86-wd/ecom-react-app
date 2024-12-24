@@ -4,7 +4,7 @@ import { TransactionItemSchema } from "./transactionItem.validator";
 export const CartSchema = z.object({
   id: z.string().optional(),
   customerEmail: z.string(),
-  items: z.array(TransactionItemSchema),
+  items: z.array(TransactionItemSchema).optional(),
   createdAt: z.date().optional(),
   modifiedAt: z.date().optional(),
 });
