@@ -27,7 +27,7 @@ export abstract class BaseQueries<TModel> {
     }
   }
 
-  async findById(id: string | number): Promise<TModel | null> {
+  async findById(id: string | bigint): Promise<TModel | null> {
     try {
       return await this.getModelClient().findUnique({
         where: { [this.getIdName()]: id },
@@ -51,7 +51,7 @@ export abstract class BaseQueries<TModel> {
   }
 
   async updateData(
-    id: string | number,
+    id: string | bigint,
     newData: Prisma.InputJsonObject
   ): Promise<TModel | null> {
     try {
@@ -68,7 +68,7 @@ export abstract class BaseQueries<TModel> {
     }
   }
 
-  async deleteData(id: string | number): Promise<TModel | null> {
+  async deleteData(id: string | bigint): Promise<TModel | null> {
     try {
       return await this.getModelClient().delete({
         where: { [this.getIdName()]: id },
