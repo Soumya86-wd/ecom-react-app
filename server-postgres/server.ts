@@ -6,18 +6,6 @@ const brandService = new BrandService();
 
 async function testBrandService() {
   try {
-    // log("Attempting to retrieve all brands...");
-    // const allBrands = await brandService.findAllBrands();
-    // log("All brands: ", allBrands);
-
-    // log(
-    //   "Attempting to retrieve brand by id: 0ec07c3b-29a8-44d1-a9f6-adc465cba923"
-    // );
-    // const specificBrand = await brandService.findBrandById(
-    //   "0ec07c3b-29a8-44d1-a9f6-adc465cba923"
-    // );
-    // log("Brand retrieved: ", specificBrand);
-
     log("Attempting to create a new brand");
     const createdBrand = await brandService.createNewBrand({
       name: "A Latest Brand",
@@ -27,7 +15,14 @@ async function testBrandService() {
     });
     log("Created Brand: ", createdBrand);
 
-    log("Attempting to update the created brand");
+    log("Attempting to search the created brand by id");
+    log(`ID of the new brand: ${createdBrand.id}`);
+    const brandById = await brandService.findBrandById(
+      createdBrand.id as string
+    );
+    log("Brand found by id: ", brandById);
+
+    log("Attempting to update the name of the created brand");
     const existingBrandData = {
       ...createdBrand,
     };
@@ -55,4 +50,4 @@ async function testBrandService() {
   }
 }
 
-testBrandService();
+// testBrandService();

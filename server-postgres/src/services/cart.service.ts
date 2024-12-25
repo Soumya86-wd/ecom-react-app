@@ -1,95 +1,38 @@
-import { logError } from "../../utils";
-import { CartQueries } from "../../db";
-import { CartData, CartSchema, TransactionItemSchema } from "../validators";
+import { ZodObject } from "zod";
+import { CartQueries, type Cart } from "../../db";
+import {
+  type CartData,
+  CartSchema,
+  TransactionItemSchema,
+} from "../validators";
+import { BaseService } from "./base.service";
 
-export class CartService {
-  private cartQueries: CartQueries;
-
+export class CartService extends BaseService<CartData, Cart, CartQueries> {
   constructor() {
-    this.cartQueries = new CartQueries();
+    super(new CartQueries());
   }
 
-  // Parse items only if they exist
-  private parseItems(items?: CartData["items"]) {
-    return items && items.map((item) => TransactionItemSchema.parse(item));
+  protected getSchema(): ZodObject<any> {
+    return CartSchema;
   }
 
-  //TODO findCartByUserEmail
+  protected getInnerSchemas(): { schema: ZodObject<any>; fieldName: string }[] {
+    return [{ schema: TransactionItemSchema, fieldName: "items" }];
+  }
 
   async findCartById(id: string): Promise<CartData> {
-    try {
-      const retrievedData: CartData | null = await this.cartQueries.findById(
-        id,
-        { include: { items: true } }
-      );
-      if (!retrievedData) {
-        throw new Error(`Cart with id ${id} not found.`);
-      }
-      return retrievedData;
-    } catch (error) {
-      logError(error, `Error in findCartById(${id}).`);
-      throw error;
-    }
+    return this.findById(id, { include: { items: true } });
   }
 
-  async createCart(inputData: CartData): Promise<CartData> {
-    try {
-      CartSchema.parse(inputData);
-      inputData.items = this.parseItems(inputData.items);
-
-      const serializedData = JSON.parse(JSON.stringify(inputData));
-      const insertedData = await this.cartQueries.addNew(serializedData);
-
-      if (!insertedData) {
-        throw new Error("Failed to insert cart data.");
-      }
-
-      return insertedData;
-    } catch (error) {
-      logError(error, `Error in createCart().`);
-      throw error;
-    }
+  async createNewCart(inputData: CartData): Promise<CartData> {
+    return this.create(inputData);
   }
 
   async updateCart(id: string, inputData: CartData): Promise<CartData> {
-    try {
-      CartSchema.parse(inputData);
-
-      inputData.items = this.parseItems(inputData.items);
-
-      const serializedData = JSON.parse(JSON.stringify(inputData));
-      const updatedData: CartData | null = await this.cartQueries.updateData(
-        id,
-        serializedData
-      );
-
-      if (!updatedData) {
-        throw new Error(`Unable to update cart with id ${id}.`);
-      }
-
-      return updatedData;
-    } catch (error) {
-      logError(error, `Error in updateCart(${id})`);
-      throw error;
-    }
+    return this.update(id, inputData);
   }
 
   async deleteCart(id: string): Promise<CartData> {
-    try {
-      const deletedData: CartData | null = await this.cartQueries.deleteData(
-        id
-      );
-      if (!deletedData) {
-        throw new Error(`Cart with id ${id} not found for deletion.`);
-      }
-      return deletedData;
-    } catch (error) {
-      logError(error, `Error in cartBrand(${id})`);
-      throw error;
-    }
-  }
-
-  async disconnect() {
-    await this.cartQueries.disconnect();
+    return this.delete(id);
   }
 }

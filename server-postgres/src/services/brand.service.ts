@@ -1,103 +1,38 @@
-import { logError } from "../../utils";
-import { BrandQueries } from "../../db";
-import { BrandData, BrandSchema, ProductSchema } from "../validators";
+import { ZodObject } from "zod";
+import { BrandQueries, type Brand } from "../../db";
+import { type BrandData, BrandSchema, ProductSchema } from "../validators";
+import { BaseService } from "./base.service";
 
-export class BrandService {
-  private brandQueries: BrandQueries;
-
+export class BrandService extends BaseService<BrandData, Brand, BrandQueries> {
   constructor() {
-    this.brandQueries = new BrandQueries();
+    super(new BrandQueries());
   }
 
-  // Parse products only if they exist
-  private parseProducts(products?: BrandData["products"]) {
-    return products && products.map((product) => ProductSchema.parse(product));
+  protected getSchema(): ZodObject<any> {
+    return BrandSchema;
+  }
+
+  protected getInnerSchemas(): { schema: ZodObject<any>; fieldName: string }[] {
+    return [{ schema: ProductSchema, fieldName: "products" }];
   }
 
   async findBrandById(id: string): Promise<BrandData> {
-    try {
-      const retrievedData: BrandData | null = await this.brandQueries.findById(
-        id,
-        { include: { products: true } }
-      );
-      if (!retrievedData) {
-        throw new Error(`Brand with id ${id} not found.`);
-      }
-      return retrievedData;
-    } catch (error) {
-      logError(error, `Error in findBrandById(${id}).`);
-      throw error;
-    }
+    return this.findById(id, { include: { products: true } });
   }
 
   async createNewBrand(inputData: BrandData): Promise<BrandData> {
-    try {
-      BrandSchema.parse(inputData);
-      inputData.products = this.parseProducts(inputData.products);
-
-      const serializedData = JSON.parse(JSON.stringify(inputData));
-      const insertedData = await this.brandQueries.addNew(serializedData);
-
-      if (!insertedData) {
-        throw new Error("Failed to insert brand data.");
-      }
-
-      return insertedData;
-    } catch (error) {
-      logError(error, `Error in createNewBrand().`);
-      throw error;
-    }
+    return this.create(inputData);
   }
 
   async findAllBrands(): Promise<BrandData[]> {
-    try {
-      const listOfBrands = await this.brandQueries.findAll();
-      return listOfBrands;
-    } catch (error) {
-      logError(error, `Error in findAllBrands() for brand service.`);
-      throw error;
-    }
+    return this.findAll();
   }
 
   async updateBrand(id: string, inputData: BrandData): Promise<BrandData> {
-    try {
-      BrandSchema.parse(inputData);
-
-      inputData.products = this.parseProducts(inputData.products);
-
-      const serializedData = JSON.parse(JSON.stringify(inputData));
-      const updatedData: BrandData | null = await this.brandQueries.updateData(
-        id,
-        serializedData
-      );
-
-      if (!updatedData) {
-        throw new Error(`Unable to update brand with id ${id}.`);
-      }
-
-      return updatedData;
-    } catch (error) {
-      logError(error, `Error in updateBrand() for brand service.`);
-      throw error;
-    }
+    return this.update(id, inputData);
   }
 
   async deleteBrand(id: string): Promise<BrandData> {
-    try {
-      const deletedData: BrandData | null = await this.brandQueries.deleteData(
-        id
-      );
-      if (!deletedData) {
-        throw new Error(`Brand with id ${id} not found for deletion.`);
-      }
-      return deletedData;
-    } catch (error) {
-      logError(error, `Error in deleteBrand(${id}) for brand service.`);
-      throw error;
-    }
-  }
-
-  async disconnect() {
-    await this.brandQueries.disconnect();
+    return this.delete(id);
   }
 }
