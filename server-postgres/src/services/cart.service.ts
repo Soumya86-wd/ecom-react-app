@@ -9,8 +9,9 @@ export class CartService {
     this.cartQueries = new CartQueries();
   }
 
+  // Parse items only if they exist
   private parseItems(items?: CartData["items"]) {
-    return items ? items.map((item) => TransactionItemSchema.parse(item)) : [];
+    return items && items.map((item) => TransactionItemSchema.parse(item));
   }
 
   //TODO findCartByUserEmail
@@ -18,7 +19,8 @@ export class CartService {
   async findCartById(id: string): Promise<CartData> {
     try {
       const retrievedData: CartData | null = await this.cartQueries.findById(
-        id
+        id,
+        { include: { items: true } }
       );
       if (!retrievedData) {
         throw new Error(`Cart with id ${id} not found.`);
@@ -67,7 +69,7 @@ export class CartService {
 
       return updatedData;
     } catch (error) {
-      logError(error, `Error in updateCart()`);
+      logError(error, `Error in updateCart(${id})`);
       throw error;
     }
   }

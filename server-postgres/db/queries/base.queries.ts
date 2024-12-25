@@ -27,10 +27,11 @@ export abstract class BaseQueries<TModel> {
     }
   }
 
-  async findById(id: string | bigint): Promise<TModel | null> {
+  async findById(id: string | bigint, options?: any): Promise<TModel | null> {
     try {
       return await this.getModelClient().findUnique({
         where: { [this.getIdName()]: id },
+        ...options,
       });
     } catch (error) {
       logError(

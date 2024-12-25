@@ -9,16 +9,16 @@ export class BrandService {
     this.brandQueries = new BrandQueries();
   }
 
+  // Parse products only if they exist
   private parseProducts(products?: BrandData["products"]) {
-    return products
-      ? products.map((product) => ProductSchema.parse(product))
-      : [];
+    return products && products.map((product) => ProductSchema.parse(product));
   }
 
   async findBrandById(id: string): Promise<BrandData> {
     try {
       const retrievedData: BrandData | null = await this.brandQueries.findById(
-        id
+        id,
+        { include: { products: true } }
       );
       if (!retrievedData) {
         throw new Error(`Brand with id ${id} not found.`);
