@@ -1,14 +1,14 @@
-export { BrandData, BrandSchema } from "./brand.validator";
-export { CartData, CartSchema } from "./cart.validator";
-export { CategoryData, CategorySchema } from "./category.validator";
+export { type BrandData, BrandSchema } from "./brand.validator";
+export { type CartData, CartSchema } from "./cart.validator";
+export { type CategoryData, CategorySchema } from "./category.validator";
 export {
-  DeliveryOptionData,
+  type DeliveryOptionData,
   DeliveryOptionSchema,
 } from "./deliveryOption.validator";
-export { OrderData, OrderSchema } from "./order.validator";
-export { ProductData, ProductSchema } from "./product.validator";
+export { type OrderData, OrderSchema } from "./order.validator";
+export { type ProductData, ProductSchema } from "./product.validator";
 export {
-  TransactionItemData,
+  type TransactionItemData,
   TransactionItemSchema,
 } from "./transactionItem.validator";
-export { UserData, UserSchema } from "./user.validator";
+export { type UserData, UserSchema } from "./user.validator";
