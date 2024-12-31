@@ -1,53 +1,47 @@
 import { log } from "console";
-import { BrandService } from "./src/services/brand.service";
+import { CategoryService } from "./src/services";
 import { logError } from "./utils";
 
-const brandService = new BrandService();
+const service = new CategoryService();
 
-async function testBrandService() {
+async function testService() {
   try {
-    log("Attempting to create a new brand");
-    const createdBrand = await brandService.createNewBrand({
-      name: "A Latest Brand",
-      email: "something@somewhere.com",
-      website: "#",
-      company: "Branded",
+    // Create new row
+    log("Attempting to create a new Item");
+    const createdItem = await service.createNewCategory({
+      name: "TestCategory",
     });
-    log("Created Brand: ", createdBrand);
+    log("Created Item: ", createdItem);
 
-    log("Attempting to search the created brand by id");
-    log(`ID of the new brand: ${createdBrand.id}`);
-    const brandById = await brandService.findBrandById(
-      createdBrand.id as string
-    );
-    log("Brand found by id: ", brandById);
+    // Find the created item by its Primary Key
+    log("Attempting to search the created Item by id");
+    const createdItemPK = createdItem.name;
+    log(`ID of the new Item: ${createdItemPK}`);
+    const itemById = await service.findCategoryByName(createdItemPK);
+    log("Item found by id: ", itemById);
 
-    log("Attempting to update the name of the created brand");
-    const existingBrandData = {
-      ...createdBrand,
+    // Add something other than Primary Key
+    log("Attempting to update the name of the created Item");
+    const updateData = {
+      ...createdItem,
+      tagNames: ["A tag", "Another new tag"],
     };
-    const updatedBrand = await brandService.updateBrand(
-      existingBrandData.id as string,
-      {
-        ...existingBrandData,
-        name: "Not so latest brand",
-      }
-    );
-    log("Updated Brand: ", updatedBrand);
+    const updatedItem = await service.updateCategory(createdItemPK, updateData);
+    log("Updated Item: ", updatedItem);
 
-    log("Attempting to delete the created brand");
-    const deletedBrand = await brandService.deleteBrand(
-      createdBrand.id as string
-    );
-    log("Deleted Brand: ", deletedBrand);
+    // Delete the record using its Primary Key
+    log("Attempting to delete the created Item");
+    const deletedItem = await service.deleteCategory(createdItemPK);
+    log("Deleted Item: ", deletedItem);
 
-    const allBrands = await brandService.findAllBrands();
-    log("Remaining brands: ", allBrands);
+    // Retrieve all remaining items from db
+    const remainingItems = await service.findAllCategories();
+    log("Remaining Items: ", remainingItems);
   } catch (error) {
     logError(error, "Error testing service layer");
   } finally {
-    await brandService.disconnect();
+    await service.disconnect();
   }
 }
 
-// testBrandService();
+// testService();
