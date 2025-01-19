@@ -1,13 +1,12 @@
 import { PrismaClient, UserRole, Prisma } from "@prisma/client";
-import { log } from "console";
-import { validateEnvVariables, env, logError } from "../../utils";
+import { validateEnvVariables, env, logger } from "../../utils";
 
 console.log("Loading environment variables for Prisma configuration.");
 const requiredEnvVars = ["DATABASE_URL"];
 try {
   validateEnvVariables(requiredEnvVars);
 } catch (error) {
-  logError(error, "Error in seed.ts during environment validation");
+  logger.error({ error }, "Error in seed.ts during environment validation");
   process.exit(1);
 }
 
@@ -24,10 +23,10 @@ const prisma = new PrismaClient({
 // Uncomment to do the seed operation if needed
 // main()
 //   .then(() => {
-//     log("Seeding process successful");
+//     logger.info("Seeding process successful");
 //   })
-//   .catch((err) => {
-//     logError(error, "Error in seed.ts during environment validation");
+//   .catch((error) => {
+//     logger.error({ error }, "Error in seed.ts during environment validation");
 //     process.exit(1);
 //   })
 //   .finally(() => {
@@ -35,7 +34,7 @@ const prisma = new PrismaClient({
 //   });
 
 async function main() {
-  log("Starting the seed process...");
+  logger.info("Starting the seed process...");
 
   const brandInputRows: Prisma.BrandCreateInput[] = [
     {
@@ -78,22 +77,24 @@ async function main() {
 
   // Seed data into respective tables using the generic seeder function
   const brandSeedingResult = await seedTable(prisma.brand, brandInputRows);
-  log(`Seeded Brand Table with ${brandSeedingResult.count} rows.`);
+  logger.info(`Seeded Brand Table with ${brandSeedingResult.count} rows.`);
 
   const categorySeedingResult = await seedTable(
     prisma.category,
     categoryInputRows
   );
-  log(`Seeded Category Table with ${categorySeedingResult.count} rows.`);
+  logger.info(
+    `Seeded Category Table with ${categorySeedingResult.count} rows.`
+  );
 
   const userSeedingResult = await seedTable(prisma.user, userInputRows);
-  log(`Seeded User Table with ${userSeedingResult.count} rows.`);
+  logger.info(`Seeded User Table with ${userSeedingResult.count} rows.`);
 
   const deliveryOptionSeedingResult = await seedTable(
     prisma.deliveryOption,
     deliveryOptionInputRows
   );
-  log(
+  logger.info(
     `Seeded DeliveryOption Table with ${deliveryOptionSeedingResult.count} rows.`
   );
 }
@@ -110,13 +111,13 @@ async function seedTable<T>(
   try {
     // Delete existing rows
     const deleteResult = await model.deleteMany();
-    log(`Deleted ${deleteResult.count} existing rows.`);
+    logger.info(`Deleted ${deleteResult.count} existing rows.`);
 
     // Seed new rows
     const createResult = await model.createMany({ data: inputRows });
     return createResult;
   } catch (error) {
-    logError(error, "Error in seedTable");
+    logger.error({ error }, "Error in seedTable");
     throw error;
   }
 }

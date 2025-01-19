@@ -1,2 +1,2 @@
 export { validateEnvVariables, env } from "./env.utils";
-export { logError } from "./err.utils";
+export { logger } from "./logger.utils";

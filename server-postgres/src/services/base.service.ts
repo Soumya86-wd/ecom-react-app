@@ -1,6 +1,6 @@
 import { ZodObject } from "zod";
 import { BaseQueries } from "../../db/queries/base.queries";
-import { logError } from "../../utils";
+import { logger } from "../../utils";
 
 export abstract class BaseService<
   TData extends Record<string, any>,
@@ -61,7 +61,7 @@ export abstract class BaseService<
       }
       return retrievedData;
     } catch (error) {
-      logError(error, `Error in findById(${id}) service.`);
+      logger.error({ error }, `Error in findById(${id}) service.`);
       throw error;
     }
   }
@@ -81,7 +81,7 @@ export abstract class BaseService<
 
       return insertedData;
     } catch (error) {
-      logError(error, "Error in create() service.");
+      logger.error({ error }, "Error in create() service.");
       throw error;
     }
   }
@@ -92,7 +92,7 @@ export abstract class BaseService<
         (await this.queries.findAll()) as unknown as TData[];
       return retrievedList;
     } catch (error) {
-      logError(error, `Error in findAll() service.`);
+      logger.error({ error }, `Error in findAll() service.`);
       throw error;
     }
   }
@@ -106,7 +106,7 @@ export abstract class BaseService<
       const serializedData = JSON.parse(JSON.stringify(inputData));
       const updatedData = (await this.queries.updateData(
         id,
-        inputData
+        serializedData
       )) as TData | null;
 
       if (!updatedData) {
@@ -115,7 +115,7 @@ export abstract class BaseService<
 
       return updatedData;
     } catch (error) {
-      logError(error, `Error in update(${id}) service.`);
+      logger.error({ error }, `Error in update(${id}) service.`);
       throw error;
     }
   }
@@ -130,7 +130,7 @@ export abstract class BaseService<
 
       return deletedData;
     } catch (error) {
-      logError(error, `Error in delete() service.`);
+      logger.error({ error }, `Error in delete() service.`);
       throw error;
     }
   }

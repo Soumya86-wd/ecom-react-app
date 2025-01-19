@@ -1,6 +1,6 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { initializePrismaClient } from "./prisma.client";
-import { validateEnvVariables, logError } from "../../utils";
+import { validateEnvVariables, logger } from "../../utils";
 
 export abstract class BaseQueries<TModel> {
   private prismaClient: PrismaClient;
@@ -9,7 +9,7 @@ export abstract class BaseQueries<TModel> {
     try {
       validateEnvVariables(["DATABASE_URL"]);
     } catch (error) {
-      logError(error, "Error in queries during environment validation");
+      logger.error({ error }, "Error in queries during environment validation");
       process.exit(1);
     }
     this.prismaClient = initializePrismaClient();
@@ -22,7 +22,10 @@ export abstract class BaseQueries<TModel> {
     try {
       return await this.getModelClient().findMany();
     } catch (error) {
-      logError(error, `Error in findAll for ${String(this.getModel())} model`);
+      logger.error(
+        { error },
+        `Error in findAll for ${String(this.getModel())} model`
+      );
       throw error;
     }
   }
@@ -34,8 +37,8 @@ export abstract class BaseQueries<TModel> {
         ...options,
       });
     } catch (error) {
-      logError(
-        error,
+      logger.error(
+        { error },
         `Error in findById(${id}) for ${String(this.getModel())} model`
       );
       throw error;
@@ -46,7 +49,10 @@ export abstract class BaseQueries<TModel> {
     try {
       return await this.getModelClient().create({ data: newData });
     } catch (error) {
-      logError(error, `Error in addNew for ${String(this.getModel())} model`);
+      logger.error(
+        { error },
+        `Error in addNew for ${String(this.getModel())} model`
+      );
       throw error;
     }
   }
@@ -61,8 +67,8 @@ export abstract class BaseQueries<TModel> {
         data: newData,
       });
     } catch (error) {
-      logError(
-        error,
+      logger.error(
+        { error },
         `Error in updateData(${id}) for ${String(this.getModel())} model`
       );
       throw error;
@@ -75,8 +81,8 @@ export abstract class BaseQueries<TModel> {
         where: { [this.getIdName()]: id },
       });
     } catch (error) {
-      logError(
-        error,
+      logger.error(
+        { error },
         `Error in deleteData(${id}) for ${String(this.getModel())} model`
       );
       throw error;

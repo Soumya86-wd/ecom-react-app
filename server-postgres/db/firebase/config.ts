@@ -1,12 +1,15 @@
 import admin from "firebase-admin";
-import { validateEnvVariables, env, logError } from "../../utils";
+import { validateEnvVariables, env, logger } from "../../utils";
 
 const requiredEnvVars = ["FIREBASE_PROJECT_ID", "FIREBASE_SERVICE_ACCOUNT_KEY"];
 
 try {
   validateEnvVariables(requiredEnvVars);
 } catch (error) {
-  logError(error, "Error in firebase/config.ts during environment validation");
+  logger.error(
+    { error },
+    "Error in firebase/config.ts during environment validation"
+  );
   process.exit(1);
 }
 
@@ -16,7 +19,7 @@ let serviceAccount: admin.ServiceAccount;
 try {
   serviceAccount = JSON.parse(env.FIREBASE_SERVICE_ACCOUNT_KEY);
 } catch (error) {
-  logError(error, "Invalid JSON in FIREBASE_SERVICE_ACCOUNT_KEY");
+  logger.error({ error }, "Invalid JSON in FIREBASE_SERVICE_ACCOUNT_KEY");
   process.exit(1);
 }
 
