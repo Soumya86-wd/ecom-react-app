@@ -1,43 +1,60 @@
-import {
-  createUserWithEmailAndPassword as createFirebaseUser,
-  signInWithEmailAndPassword as loginFirebaseUser,
-  signOut as logoutFirebaseUser,
-} from "firebase/auth";
+import admin from "./config";
+import { logError } from "../../utils";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
+import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 
-import auth from "./config";
-
-const signup = async (email: string, password: string) => {
+export const createUser = async (
+  email: string,
+  password: string
+): Promise<UserRecord> => {
   try {
-    const userCredential = await createFirebaseUser(auth, email, password);
-    const user = userCredential.user;
-    console.log(user); // For now logging, later will be added to session
-  } catch (err) {
-    err instanceof Error
-      ? console.error(err.message)
-      : console.error("Error occured ", err);
+    const userRecord = await admin.createUser({ email, password });
+    console.log(`User created succcessfully: ${userRecord.uid}`);
+    return userRecord;
+  } catch (error) {
+    logError(error, "Error creating user");
+    throw error;
   }
 };
 
-const login = async (email: string, password: string) => {
+export const verifyToken = async (idToken: string): Promise<DecodedIdToken> => {
   try {
-    const userCredential = await loginFirebaseUser(auth, email, password);
-    const user = userCredential.user;
-    console.log(user);
-  } catch (err) {
-    err instanceof Error
-      ? console.error(err.message)
-      : console.error("Error occured ", err);
+    const decodedToken = admin.verifyIdToken(idToken);
+    console.log(`Token verified successfully: ${decodedToken}`);
+    return decodedToken;
+  } catch (error) {
+    logError(error, "Error verifying token");
+    throw error;
   }
 };
 
-const logOut = async () => {
+export const revokeTokens = async (uid: string): Promise<void> => {
   try {
-    await logoutFirebaseUser(auth);
-  } catch (err) {
-    err instanceof Error
-      ? console.error(err.message)
-      : console.error("Error occured ", err);
+    await admin.revokeRefreshTokens(uid);
+    console.log(`Tokens revoked for user: ${uid}`);
+  } catch (error) {
+    logError(error, "Error revoking tokens");
+    throw error;
   }
 };
 
-export { signup, login, logOut };
+export const getUserById = async (uid: string): Promise<UserRecord> => {
+  try {
+    const userRecord = await admin.getUser(uid);
+    console.log(`User details retrieved for user: ${userRecord.uid}`);
+    return userRecord;
+  } catch (error) {
+    logError(error, "Error retrieving user details");
+    throw error;
+  }
+};
+
+export const deleteUderById = async (uid: string): Promise<void> => {
+  try {
+    await admin.deleteUser(uid);
+    console.log(`User with id: ${uid} deleted successfully`);
+  } catch (error) {
+    logError(error, "Error deleting user");
+    throw error;
+  }
+};

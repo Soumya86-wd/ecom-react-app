@@ -1,17 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-// import { GoogleAuthProvider } from "firebase/auth";
+import admin from "firebase-admin";
 import { validateEnvVariables, env, logError } from "../../utils";
 
-const requiredEnvVars = [
-  "FIREBASE_API_KEY",
-  "FIREBASE_AUTH_DOMAIN",
-  "FIREBASE_PROJECT_ID",
-  "FIREBASE_STORAGE_BUCKET",
-  "FIREBASE_MESSAGING_SENDER_ID",
-  "FIREBASE_APP_ID",
-  "FIREBASE_MEASUREMENT_ID",
-];
+const requiredEnvVars = ["FIREBASE_PROJECT_ID", "FIREBASE_SERVICE_ACCOUNT_KEY"];
 
 try {
   validateEnvVariables(requiredEnvVars);
@@ -22,19 +12,19 @@ try {
 
 console.log("Firebase enviroment variables loaded effectively");
 
-const firebaseConfig = {
-  apiKey: env.FIREBASE_API_KEY,
-  authDomain: env.FIREBASE_AUTH_DOMAIN,
+let serviceAccount: admin.ServiceAccount;
+try {
+  serviceAccount = JSON.parse(env.FIREBASE_SERVICE_ACCOUNT_KEY);
+} catch (error) {
+  logError(error, "Invalid JSON in FIREBASE_SERVICE_ACCOUNT_KEY");
+  process.exit(1);
+}
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
   projectId: env.FIREBASE_PROJECT_ID,
-  storageBucket: env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: env.FIREBASE_APP_ID,
-  measurementId: env.FIREBASE_MEASUREMENT_ID,
-};
+});
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-// const googleAuth = new GoogleAuthProvider();
+console.log("Firebase Admin SDK initialized successfully");
 
-export default auth;
-// export { googleAuth };
+export default admin.auth();

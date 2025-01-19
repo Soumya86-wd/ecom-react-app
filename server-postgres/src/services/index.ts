@@ -6,6 +6,7 @@ import { OrderService } from "./order.service";
 import { ProductService } from "./product.service";
 import { TransactionItemService } from "./transactionItem.service";
 import { UserService } from "./user.service";
+import { AuthService } from "./auth.service";
 
 export {
   BrandService,
@@ -16,4 +17,5 @@ export {
   ProductService,
   TransactionItemService,
   UserService,
+  AuthService,
 };
